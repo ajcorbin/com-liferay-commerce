@@ -29,20 +29,12 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.PermissionCheckerTestRule;
+import org.frutilla.FrutillaRule;
+import org.junit.*;
+import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
-
 import java.util.List;
-
-import org.frutilla.FrutillaRule;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * @author Luca Pellizzon
@@ -53,7 +45,7 @@ public class CommerceCheckoutTest {
 	@ClassRule
 	@Rule
 	public static AggregateTestRule aggregateTestRule = new AggregateTestRule(
-		new LiferayIntegrationTestRule(), PermissionCheckerTestRule.INSTANCE);
+		new LiferayIntegrationTestRule());
 
 	@Before
 	public void setUp() throws Exception {

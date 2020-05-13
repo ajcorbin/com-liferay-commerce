@@ -14,49 +14,14 @@
 
 package com.liferay.commerce.shipping.engine.fedex.internal.util;
 
-import com.fedex.ws.rate.v22.Address;
-import com.fedex.ws.rate.v22.ClientDetail;
-import com.fedex.ws.rate.v22.Contact;
-import com.fedex.ws.rate.v22.DropoffType;
-import com.fedex.ws.rate.v22.LinearUnits;
-import com.fedex.ws.rate.v22.Money;
-import com.fedex.ws.rate.v22.Notification;
-import com.fedex.ws.rate.v22.NotificationSeverityType;
-import com.fedex.ws.rate.v22.Party;
-import com.fedex.ws.rate.v22.Payment;
-import com.fedex.ws.rate.v22.PaymentType;
-import com.fedex.ws.rate.v22.Payor;
-import com.fedex.ws.rate.v22.RatePortType;
-import com.fedex.ws.rate.v22.RateReply;
-import com.fedex.ws.rate.v22.RateReplyDetail;
-import com.fedex.ws.rate.v22.RateRequest;
-import com.fedex.ws.rate.v22.RateRequestType;
-import com.fedex.ws.rate.v22.RateServiceLocator;
-import com.fedex.ws.rate.v22.RatedShipmentDetail;
-import com.fedex.ws.rate.v22.RequestedPackageLineItem;
-import com.fedex.ws.rate.v22.RequestedShipment;
-import com.fedex.ws.rate.v22.ReturnedRateType;
-import com.fedex.ws.rate.v22.ServiceType;
-import com.fedex.ws.rate.v22.ShipmentRateDetail;
-import com.fedex.ws.rate.v22.TransactionDetail;
-import com.fedex.ws.rate.v22.VersionId;
-import com.fedex.ws.rate.v22.WebAuthenticationCredential;
-import com.fedex.ws.rate.v22.WebAuthenticationDetail;
-import com.fedex.ws.rate.v22.Weight;
-import com.fedex.ws.rate.v22.WeightUnits;
-
+import com.fedex.ws.rate.v22.*;
 import com.liferay.commerce.context.CommerceContext;
 import com.liferay.commerce.currency.model.CommerceCurrency;
 import com.liferay.commerce.currency.model.CommerceMoney;
 import com.liferay.commerce.currency.service.CommerceCurrencyLocalService;
 import com.liferay.commerce.exception.CommerceShippingEngineException;
-import com.liferay.commerce.model.CommerceAddress;
-import com.liferay.commerce.model.CommerceCountry;
-import com.liferay.commerce.model.CommerceOrder;
-import com.liferay.commerce.model.CommerceOrderItem;
-import com.liferay.commerce.model.CommerceRegion;
-import com.liferay.commerce.model.CommerceShippingOption;
 import com.liferay.commerce.model.Dimensions;
+import com.liferay.commerce.model.*;
 import com.liferay.commerce.price.CommerceProductPriceCalculation;
 import com.liferay.commerce.product.model.CPDefinition;
 import com.liferay.commerce.product.model.CPInstance;
@@ -67,34 +32,20 @@ import com.liferay.commerce.shipping.engine.fedex.internal.configuration.FedExCo
 import com.liferay.commerce.shipping.engine.fedex.internal.constants.FedExCommerceShippingEngineConstants;
 import com.liferay.commerce.shipping.origin.locator.CommerceShippingOriginLocator;
 import com.liferay.commerce.util.CommerceShippingHelper;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.CalendarFactoryUtil;
-import com.liferay.portal.kernel.util.KeyValuePair;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-
-import java.math.BigDecimal;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
+import com.liferay.portal.kernel.util.*;
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
+
+import java.math.BigDecimal;
+import java.util.*;
+
 
 /**
  * @author Andrea Di Giorgi

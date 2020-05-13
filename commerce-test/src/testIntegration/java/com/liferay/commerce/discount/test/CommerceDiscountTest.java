@@ -48,22 +48,13 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.PermissionCheckerTestRule;
+import org.frutilla.FrutillaRule;
+import org.junit.*;
+import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import org.frutilla.FrutillaRule;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * @author Luca Pellizzon
@@ -74,7 +65,7 @@ public class CommerceDiscountTest {
 	@ClassRule
 	@Rule
 	public static AggregateTestRule aggregateTestRule = new AggregateTestRule(
-		new LiferayIntegrationTestRule(), PermissionCheckerTestRule.INSTANCE);
+		new LiferayIntegrationTestRule());
 
 	@Before
 	public void setUp() throws Exception {

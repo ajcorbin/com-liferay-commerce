@@ -141,15 +141,21 @@ public class CommerceApplicationBrandLocalServiceImpl
 			_userFileUploadsSettings.getImageMaxHeight(),
 			_userFileUploadsSettings.getImageMaxWidth());
 
+
 		return commerceApplicationBrandPersistence.update(
 			commerceApplicationBrand);
 	}
+	private static volatile UserFileUploadsSettings _userFileUploadsSettings;
 
-	private static volatile UserFileUploadsSettings _userFileUploadsSettings =
-		ProxyFactory.newServiceTrackedInstance(
-			UserFileUploadsSettings.class,
-			CommerceApplicationBrandLocalServiceImpl.class,
-			"_userFileUploadsSettings");
+	static {
+		try {
+			_userFileUploadsSettings = (UserFileUploadsSettings) ProxyFactory.newInstance(UserFileUploadsSettings.class.getClassLoader(),
+				CommerceApplicationBrandLocalServiceImpl.class,
+				"_userFileUploadsSettings");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@ServiceReference(type = Portal.class)
 	private Portal _portal;

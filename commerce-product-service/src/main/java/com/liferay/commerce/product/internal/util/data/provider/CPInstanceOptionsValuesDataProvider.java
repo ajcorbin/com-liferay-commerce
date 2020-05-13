@@ -20,11 +20,9 @@ import com.liferay.commerce.product.permission.CommerceProductViewPermission;
 import com.liferay.commerce.product.service.CPDefinitionOptionRelLocalService;
 import com.liferay.commerce.product.util.CPInstanceHelper;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProvider;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderContext;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderException;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
-import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponseOutput;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -33,16 +31,10 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.ReleaseInfo;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.*;
 
 /**
  * @author Rafael Praxedes
@@ -54,7 +46,7 @@ import org.osgi.service.component.annotations.Reference;
 	service = DDMDataProvider.class
 )
 public class CPInstanceOptionsValuesDataProvider implements DDMDataProvider {
-
+/*
 	@Override
 	public List<KeyValuePair> getData(
 			DDMDataProviderContext ddmDataProviderContext)
@@ -62,7 +54,7 @@ public class CPInstanceOptionsValuesDataProvider implements DDMDataProvider {
 
 		return Collections.emptyList();
 	}
-
+*/
 	@Override
 	public DDMDataProviderResponse getData(
 			DDMDataProviderRequest ddmDataProviderRequest)
@@ -115,7 +107,7 @@ public class CPInstanceOptionsValuesDataProvider implements DDMDataProvider {
 			 * 3 - Size empty and Color filled - the same approach that item 2
 			 * 4 - Size and Color both filled - the same approach that item 1
 			 */
-			Map<String, String> parameters =
+			Map<String, Object> parameters =
 				ddmDataProviderRequest.getParameters();
 
 			Map<String, String> outputParameterNames = new HashMap<>();
@@ -130,7 +122,7 @@ public class CPInstanceOptionsValuesDataProvider implements DDMDataProvider {
 					cpDefinitionOptionRels) {
 
 				String parameterValue = parameters.get(
-					cpDefinitionOptionRel.getKey());
+					cpDefinitionOptionRel.getKey()).toString();
 
 				// Collect filters and outputs
 
@@ -207,18 +199,15 @@ public class CPInstanceOptionsValuesDataProvider implements DDMDataProvider {
 				return ddmDataProviderResponseBuilder.build();
 			}
 
-			DDMDataProviderResponseOutput[] ddmDataProviderResponseOutputs =
-				new DDMDataProviderResponseOutput[outputs.size()];
-
+			DDMDataProviderResponse.Builder builder = DDMDataProviderResponse.Builder.newBuilder();
 			for (int i = 0; i < outputs.size(); i++) {
 				Output output = outputs.get(i);
 
-				ddmDataProviderResponseOutputs[i] =
-					DDMDataProviderResponseOutput.of(
-						output._name, output._type, output._value);
+				builder.withOutput( output._name, output._value);
 			}
 
-			return DDMDataProviderResponse.of(ddmDataProviderResponseOutputs);
+
+			return builder.build();
 		}
 
 		public Output(String name, String type, Object value) {
@@ -236,7 +225,7 @@ public class CPInstanceOptionsValuesDataProvider implements DDMDataProvider {
 	private long _getParameter(
 		DDMDataProviderRequest ddmDataProviderRequest, String param) {
 
-		Map<String, String> parameters = ddmDataProviderRequest.getParameters();
+		Map<String, Object> parameters = ddmDataProviderRequest.getParameters();
 
 		return GetterUtil.getLong(parameters.get(param));
 	}

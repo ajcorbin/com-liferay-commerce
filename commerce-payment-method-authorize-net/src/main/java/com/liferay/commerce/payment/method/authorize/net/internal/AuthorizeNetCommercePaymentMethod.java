@@ -27,6 +27,7 @@ import com.liferay.commerce.payment.result.CommercePaymentResult;
 import com.liferay.commerce.product.model.CommerceChannel;
 import com.liferay.commerce.product.service.CommerceChannelLocalService;
 import com.liferay.commerce.service.CommerceOrderService;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactory;
@@ -39,33 +40,22 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.URLCodec;
+import net.authorize.Environment;
+import net.authorize.api.contract.v1.*;
+import net.authorize.api.controller.GetHostedPaymentPageController;
+import net.authorize.api.controller.base.ApiOperationBase;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import java.net.URLEncoder;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import net.authorize.Environment;
-import net.authorize.api.contract.v1.ArrayOfSetting;
-import net.authorize.api.contract.v1.GetHostedPaymentPageRequest;
-import net.authorize.api.contract.v1.GetHostedPaymentPageResponse;
-import net.authorize.api.contract.v1.MerchantAuthenticationType;
-import net.authorize.api.contract.v1.SettingType;
-import net.authorize.api.contract.v1.TransactionRequestType;
-import net.authorize.api.contract.v1.TransactionTypeEnum;
-import net.authorize.api.controller.GetHostedPaymentPageController;
-import net.authorize.api.controller.base.ApiOperationBase;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Luca Pellizzon

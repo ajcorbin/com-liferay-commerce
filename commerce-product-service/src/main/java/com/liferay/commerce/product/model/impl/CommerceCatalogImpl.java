@@ -39,7 +39,6 @@ public class CommerceCatalogImpl extends CommerceCatalogBaseImpl {
 				_log.error("Unable to get commerce catalog group", e);
 			}
 		}
-
 		return new GroupImpl();
 	}
 

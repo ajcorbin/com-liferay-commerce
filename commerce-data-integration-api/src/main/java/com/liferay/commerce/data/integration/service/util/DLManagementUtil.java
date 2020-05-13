@@ -15,6 +15,7 @@
 package com.liferay.commerce.data.integration.service.util;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLVersionNumberIncrease;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -50,7 +51,7 @@ public class DLManagementUtil {
 		else {
 			fileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(
 				serviceContext.getUserId(), fileEntryId, fileName, mimeType,
-				fileName, fileName, "", true, 0L, null, null, inStream, 0L,
+				fileName, fileName, "", DLVersionNumberIncrease.fromMajorVersion(true), 0L, null, null, inStream, 0L,
 				serviceContext);
 		}
 
@@ -80,7 +81,7 @@ public class DLManagementUtil {
 		else {
 			fileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(
 				serviceContext.getUserId(), fileEntryId, sourceFileName,
-				mimeType, sourceFileName, sourceFileName, "", true, 0L, null,
+				mimeType, sourceFileName, sourceFileName, "", DLVersionNumberIncrease.fromMajorVersion(true), 0L, null,
 				file, null, 0L, serviceContext);
 		}
 

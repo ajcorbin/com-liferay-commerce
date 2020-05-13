@@ -15,26 +15,23 @@
 package com.liferay.commerce.data.integration.internal.messaging;
 
 import com.liferay.commerce.data.integration.constants.CommerceDataIntegrationConstants;
-import com.liferay.portal.kernel.concurrent.CallerRunsPolicy;
-import com.liferay.portal.kernel.concurrent.RejectedExecutionHandler;
-import com.liferay.portal.kernel.concurrent.ThreadPoolExecutor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Destination;
 import com.liferay.portal.kernel.messaging.DestinationConfiguration;
 import com.liferay.portal.kernel.messaging.DestinationFactory;
 import com.liferay.portal.kernel.util.HashMapDictionary;
-
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.RejectedExecutionHandler;
 
 /**
  * @author guywandji
@@ -58,6 +55,22 @@ public class CommerceDataIntegrationMessagingConfigurator {
 		destinationConfiguration.setMaximumQueueSize(_MAXIMUM_QUEUE_SIZE);
 
 		RejectedExecutionHandler rejectedExecutionHandler =
+				new java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy() {
+
+					@Override
+					public void rejectedExecution(Runnable r, java.util.concurrent.ThreadPoolExecutor e) {
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+									"The current thread will handle the request " +
+											"because the rules engine's task queue is at " +
+											"its maximum capacity");
+						}
+						super.rejectedExecution(r, e);
+					}
+				};
+/*
+		RejectedExecutionHandler rejectedExecutionHandler =
 			new CallerRunsPolicy() {
 
 				@Override
@@ -75,7 +88,7 @@ public class CommerceDataIntegrationMessagingConfigurator {
 				}
 
 			};
-
+*/
 		destinationConfiguration.setRejectedExecutionHandler(
 			rejectedExecutionHandler);
 

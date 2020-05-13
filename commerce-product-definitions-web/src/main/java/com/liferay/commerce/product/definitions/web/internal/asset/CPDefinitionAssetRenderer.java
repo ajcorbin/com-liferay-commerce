@@ -32,23 +32,16 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import java.util.Date;
-import java.util.Locale;
+import com.liferay.portal.kernel.util.*;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
 import javax.portlet.WindowState;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Alessio Antonio Rendina
@@ -80,7 +73,8 @@ public class CPDefinitionAssetRenderer
 		return _cpDefinition.getCPDefinitionId();
 	}
 
-	@Override
+	//FIXME This is no longer in the in parent interface
+	//@Override
 	public Date getDisplayDate() {
 		return _cpDefinition.getDisplayDate();
 	}

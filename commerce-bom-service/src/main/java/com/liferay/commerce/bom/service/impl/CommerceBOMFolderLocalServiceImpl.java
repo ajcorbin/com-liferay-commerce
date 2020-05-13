@@ -154,11 +154,18 @@ public class CommerceBOMFolderLocalServiceImpl
 		return commerceBOMFolderPersistence.update(commerceBOMFolder);
 	}
 
-	private static volatile UserFileUploadsSettings _userFileUploadsSettings =
-		ProxyFactory.newServiceTrackedInstance(
-			UserFileUploadsSettings.class,
-			CommerceBOMFolderLocalServiceImpl.class,
-			"_userFileUploadsSettings");
+	private static volatile UserFileUploadsSettings _userFileUploadsSettings;
+
+	static {
+		try {
+			_userFileUploadsSettings = (UserFileUploadsSettings) ProxyFactory.newInstance(
+					UserFileUploadsSettings.class.getClassLoader(),
+				CommerceBOMFolderLocalServiceImpl.class,
+				"_userFileUploadsSettings");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@ServiceReference(type = Portal.class)
 	private Portal _portal;

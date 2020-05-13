@@ -15,15 +15,14 @@
 package com.liferay.commerce.product.model.impl;
 
 import com.liferay.commerce.product.model.CPDisplayLayout;
+import com.liferay.petra.lang.HashUtil;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.petra.string.StringBundler;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-
 import java.util.Date;
 
 /**

@@ -21,21 +21,14 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.servlet.taglib.aui.ScriptData;
 import com.liferay.portal.kernel.template.TemplateException;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Writer;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Iván Zaera Avellón
@@ -104,7 +97,9 @@ public class SoyComponentRendererHelper {
 		String moduleName = StringUtil.extractLast(
 			module, CharPool.FORWARD_SLASH);
 
-		return StringUtil.strip(moduleName, _UNSAFE_MODULE_NAME_CHARS);
+		return StringUtil.replace( moduleName, new String(_UNSAFE_MODULE_NAME_CHARS), "" );
+		//FIXME This api has changed
+		// return StringUtil.strip(moduleName, _UNSAFE_MODULE_NAME_CHARS);
 	}
 
 	private void _prepareContext() {
@@ -146,7 +141,9 @@ public class SoyComponentRendererHelper {
 			sb.append(StringPool.COMMA);
 			sb.append(dependency);
 			sb.append(" as ");
-			sb.append(StringUtil.strip(dependency, _UNSAFE_MODULE_NAME_CHARS));
+			//FIXME The StringUtil.strip was removed
+			//sb.append(StringUtil.strip(dependency, _UNSAFE_MODULE_NAME_CHARS));
+			sb.append(StringUtil.replace( dependency, new String(_UNSAFE_MODULE_NAME_CHARS), "" ));
 		}
 
 		if (_componentDescriptor.isPositionInLine()) {

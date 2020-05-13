@@ -24,28 +24,20 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.sender.SingleDestinationMessageSender;
-import com.liferay.portal.kernel.messaging.sender.SingleDestinationMessageSenderFactory;
+import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.util.Constants;
-import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.UnicodeProperties;
-
-import java.io.IOException;
+import com.liferay.portal.kernel.util.*;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-
 import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import java.io.IOException;
 
 /**
  * @author Alessio Antonio Rendina
@@ -204,12 +196,18 @@ public class EditCommerceDataIntegrationProcessActionCommand
 			"commerceDataIntegrationProcessId",
 			commerceDataIntegrationProcessId);
 
+		Message message = new Message();
+		message.setPayload( payLoad.toString() );
+		_messageBus.sendMessage( CommerceDataIntegrationConstants.EXECUTOR_DESTINATION_NAME, message );
+		//FIXME This api is no longer available.
+		/*
 		SingleDestinationMessageSender messageSender =
 			_singleDestinationMessageSenderFactory.
 				createSingleDestinationMessageSender(
 					CommerceDataIntegrationConstants.EXECUTOR_DESTINATION_NAME);
 
 		messageSender.send(payLoad.toString());
+		 */
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -225,8 +223,13 @@ public class EditCommerceDataIntegrationProcessActionCommand
 	@Reference
 	private Portal _portal;
 
+	//FIXME This is no longer supported.
+	/*
 	@Reference
 	private SingleDestinationMessageSenderFactory
 		_singleDestinationMessageSenderFactory;
+	 */
+	@Reference
+	private MessageBus _messageBus;
 
 }

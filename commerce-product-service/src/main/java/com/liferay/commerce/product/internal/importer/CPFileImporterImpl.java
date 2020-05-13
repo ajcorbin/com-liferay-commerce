@@ -1,17 +1,3 @@
-/**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- */
-
 package com.liferay.commerce.product.internal.importer;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -20,13 +6,9 @@ import com.liferay.commerce.product.importer.CPFileImporter;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.util.DLUtil;
-import com.liferay.dynamic.data.mapping.io.DDMFormJSONDeserializer;
-import com.liferay.dynamic.data.mapping.model.DDMForm;
-import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
-import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.model.DDMStructureConstants;
-import com.liferay.dynamic.data.mapping.model.DDMTemplate;
-import com.liferay.dynamic.data.mapping.model.DDMTemplateConstants;
+import com.liferay.dynamic.data.mapping.io.DDMFormDeserializer;
+import com.liferay.dynamic.data.mapping.io.DDMFormDeserializerDeserializeRequest;
+import com.liferay.dynamic.data.mapping.model.*;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalService;
 import com.liferay.dynamic.data.mapping.util.DDM;
@@ -44,65 +26,24 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.GroupConstants;
-import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.model.LayoutConstants;
-import com.liferay.portal.kernel.model.LayoutSet;
-import com.liferay.portal.kernel.model.LayoutTypePortlet;
-import com.liferay.portal.kernel.model.PortletPreferencesIds;
-import com.liferay.portal.kernel.model.ResourceConstants;
-import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.model.Theme;
-import com.liferay.portal.kernel.model.ThemeSetting;
-import com.liferay.portal.kernel.model.UserConstants;
+import com.liferay.portal.kernel.model.*;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryConstants;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
-import com.liferay.portal.kernel.service.LayoutLocalService;
-import com.liferay.portal.kernel.service.LayoutSetLocalService;
-import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
-import com.liferay.portal.kernel.service.RoleLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ThemeLocalService;
-import com.liferay.portal.kernel.util.AggregateResourceBundleLoader;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.CalendarFactoryUtil;
-import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
-import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.ResourceBundleLoader;
-import com.liferay.portal.kernel.util.ResourceBundleLoaderUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.TextFormatter;
-import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.impl.ThemeSettingImpl;
+import com.liferay.portal.kernel.service.*;
+import com.liferay.portal.kernel.util.*;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Marco Leo
@@ -472,7 +413,8 @@ public class CPFileImporterImpl implements CPFileImporter {
 	protected void deleteThemeSettingsProperties(
 		UnicodeProperties typeSettingsProperties, String device) {
 
-		String keyPrefix = ThemeSettingImpl.namespaceProperty(device);
+		//FIXME ThemeSettingImpl is deprecated
+		String keyPrefix = "";//ThemeSettingImpl.namespaceProperty(device);
 
 		Set<String> keys = typeSettingsProperties.keySet();
 
@@ -513,7 +455,9 @@ public class CPFileImporterImpl implements CPFileImporter {
 		json = getNormalizedContent(
 			json, classLoader, dependencyFilePath, serviceContext);
 
-		DDMForm ddmForm = _ddmFormJSONDeserializer.deserialize(json);
+		DDMFormDeserializerDeserializeRequest.Builder builder = DDMFormDeserializerDeserializeRequest.Builder.newBuilder(json);
+
+		DDMForm ddmForm = _ddmFormJSONDeserializer.deserialize(builder.build()).getDDMForm();
 
 		ddmForm = _updateDDMFormAvailableLocales(
 			ddmForm, serviceContext.getLocale());
@@ -808,10 +752,13 @@ public class CPFileImporterImpl implements CPFileImporter {
 
 			String value = themeSetting.getValue();
 
+			//FIXME ThemeSettingImpl is deprecated
+			/*
 			if (!value.equals(themeSetting.getValue())) {
 				typeSettingProperties.setProperty(
 					ThemeSettingImpl.namespaceProperty(device, key), value);
 			}
+			 */
 		}
 	}
 
@@ -978,8 +925,8 @@ public class CPFileImporterImpl implements CPFileImporter {
 	@Reference
 	private DDM _ddm;
 
-	@Reference
-	private DDMFormJSONDeserializer _ddmFormJSONDeserializer;
+	@Reference(target = "(ddm.form.deserializer.type=json)")
+	private DDMFormDeserializer _ddmFormJSONDeserializer;
 
 	@Reference
 	private DDMStructureLocalService _ddmStructureLocalService;

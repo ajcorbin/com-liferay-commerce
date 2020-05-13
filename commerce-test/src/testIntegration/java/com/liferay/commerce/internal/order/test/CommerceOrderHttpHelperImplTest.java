@@ -52,7 +52,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.PermissionCheckerTestRule;
+
 import com.liferay.portal.theme.ThemeDisplayFactory;
 
 import java.util.ArrayList;
@@ -82,8 +82,7 @@ public class CommerceOrderHttpHelperImplTest {
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
 		new AggregateTestRule(
-			new LiferayIntegrationTestRule(),
-			PermissionCheckerTestRule.INSTANCE);
+			new LiferayIntegrationTestRule());
 
 	@Before
 	public void setUp() throws Exception {

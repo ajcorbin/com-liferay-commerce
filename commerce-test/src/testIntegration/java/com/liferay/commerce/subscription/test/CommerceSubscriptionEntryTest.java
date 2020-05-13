@@ -20,16 +20,8 @@ import com.liferay.commerce.currency.test.util.CommerceCurrencyTestUtil;
 import com.liferay.commerce.exception.CommerceOrderValidatorException;
 import com.liferay.commerce.model.CommerceOrder;
 import com.liferay.commerce.model.CommerceSubscriptionEntry;
-import com.liferay.commerce.product.model.CPDefinition;
-import com.liferay.commerce.product.model.CPInstance;
-import com.liferay.commerce.product.model.CPOption;
-import com.liferay.commerce.product.model.CPSubscriptionInfo;
-import com.liferay.commerce.product.model.CommerceChannel;
-import com.liferay.commerce.product.service.CPDefinitionLocalServiceUtil;
-import com.liferay.commerce.product.service.CPDefinitionOptionRelLocalServiceUtil;
-import com.liferay.commerce.product.service.CPInstanceLocalService;
-import com.liferay.commerce.product.service.CPInstanceLocalServiceUtil;
-import com.liferay.commerce.product.service.CommerceChannelRelLocalServiceUtil;
+import com.liferay.commerce.product.model.*;
+import com.liferay.commerce.product.service.*;
 import com.liferay.commerce.product.test.util.CPTestUtil;
 import com.liferay.commerce.product.type.simple.constants.SimpleCPTypeConstants;
 import com.liferay.commerce.service.CommerceSubscriptionEntryLocalService;
@@ -49,18 +41,11 @@ import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.PermissionCheckerTestRule;
+import org.frutilla.FrutillaRule;
+import org.junit.*;
+import org.junit.runner.RunWith;
 
 import java.util.List;
-
-import org.frutilla.FrutillaRule;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * @author Alessio Antonio Rendina
@@ -71,7 +56,7 @@ public class CommerceSubscriptionEntryTest {
 	@ClassRule
 	@Rule
 	public static AggregateTestRule aggregateTestRule = new AggregateTestRule(
-		new LiferayIntegrationTestRule(), PermissionCheckerTestRule.INSTANCE);
+		new LiferayIntegrationTestRule());
 
 	@Before
 	public void setUp() throws Exception {

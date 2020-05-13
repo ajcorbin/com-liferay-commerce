@@ -19,7 +19,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
@@ -343,8 +343,9 @@ public class CPQuery {
 					AssetCategoryLocalServiceUtil.getCategory(categoryId);
 
 				leftRightIds[3 * i] = category.getGroupId();
-				leftRightIds[3 * i + 1] = category.getLeftCategoryId();
-				leftRightIds[3 * i + 2] = category.getRightCategoryId();
+				//FIXME The api changed.
+				//leftRightIds[3 * i + 1] = category.getLeftCategoryId();
+				//leftRightIds[3 * i + 2] = category.getRightCategoryId();
 			}
 			catch (Exception e) {
 				if (_log.isWarnEnabled()) {

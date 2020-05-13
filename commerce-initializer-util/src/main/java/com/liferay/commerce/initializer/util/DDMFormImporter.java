@@ -18,16 +18,8 @@ import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.model.DDLRecordSetConstants;
 import com.liferay.dynamic.data.lists.model.DDLRecordSetSettings;
 import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalService;
-import com.liferay.dynamic.data.mapping.io.DDMFormJSONDeserializer;
-import com.liferay.dynamic.data.mapping.io.DDMFormLayoutJSONDeserializer;
-import com.liferay.dynamic.data.mapping.io.DDMFormValuesJSONDeserializer;
-import com.liferay.dynamic.data.mapping.model.DDMForm;
-import com.liferay.dynamic.data.mapping.model.DDMFormField;
-import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
-import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
-import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.model.DDMStructureConstants;
-import com.liferay.dynamic.data.mapping.model.UnlocalizedValue;
+import com.liferay.dynamic.data.mapping.io.*;
+import com.liferay.dynamic.data.mapping.model.*;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
@@ -42,12 +34,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.ClassNameLocalService;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
-import com.liferay.portal.kernel.service.RoleLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.service.*;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +45,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Steven Smith
@@ -153,9 +140,8 @@ public class DDMFormImporter {
 			ddmStructure, ddmStructure.getDDMForm(), jsonFormLayout,
 			serviceContext);
 
-		DDMFormValues settingsDDMFormValues =
-			_ddmFormValuesJSONDeserializer.deserialize(
-				ddmStructure.getDDMForm(), jsonFormSettings);
+		DDMFormValuesDeserializerDeserializeRequest.Builder builder = DDMFormValuesDeserializerDeserializeRequest.Builder.newBuilder(jsonFormLayout, ddmStructure.getDDMForm());
+		DDMFormValues settingsDDMFormValues =_ddmFormValuesJSONDeserializer.deserialize(builder.build()).getDDMFormValues();
 
 		DDMFormInstance ddmFormInstance =
 			_ddmFormInstanceLocalService.addFormInstance(
@@ -219,7 +205,8 @@ public class DDMFormImporter {
 			ServiceContext serviceContext)
 		throws Exception {
 
-		DDMForm ddmForm = _ddmFormJSONDeserializer.deserialize(jsonForm);
+		DDMFormDeserializerDeserializeRequest.Builder builder = DDMFormDeserializerDeserializeRequest.Builder.newBuilder(jsonForm);
+		DDMForm ddmForm = _ddmFormJSONDeserializer.deserialize(builder.build()).getDDMForm();
 
 		DDMFormLayout defaultDDMFormLayout = DDMUtil.getDefaultDDMFormLayout(
 			ddmForm);
@@ -266,8 +253,10 @@ public class DDMFormImporter {
 
 		long userId = serviceContext.getUserId();
 
+		DDMFormLayoutDeserializerDeserializeRequest.Builder builder = DDMFormLayoutDeserializerDeserializeRequest.Builder.newBuilder(jsonFormLayout);
+
 		DDMFormLayout formLayout = _ddmFormLayoutJSONDeserializer.deserialize(
-			jsonFormLayout);
+				builder.build()).getDDMFormLayout();
 
 		_ddmStructureLocalService.updateStructure(
 			userId, structure.getStructureId(), ddmForm, formLayout,
@@ -283,14 +272,14 @@ public class DDMFormImporter {
 	@Reference
 	private DDMFormInstanceLocalService _ddmFormInstanceLocalService;
 
-	@Reference
-	private DDMFormJSONDeserializer _ddmFormJSONDeserializer;
+	@Reference(target = "(ddm.form.deserializer.type=json)")
+	private DDMFormDeserializer _ddmFormJSONDeserializer;
 
-	@Reference
-	private DDMFormLayoutJSONDeserializer _ddmFormLayoutJSONDeserializer;
+	@Reference(target = "(ddm.form.deserializer.type=json)")
+	private DDMFormLayoutDeserializer _ddmFormLayoutJSONDeserializer;
 
-	@Reference
-	private DDMFormValuesJSONDeserializer _ddmFormValuesJSONDeserializer;
+	@Reference(target = "(ddm.form.deserializer.type=json)")
+	private DDMFormValuesDeserializer _ddmFormValuesJSONDeserializer;
 
 	@Reference
 	private DDMStructureLocalService _ddmStructureLocalService;

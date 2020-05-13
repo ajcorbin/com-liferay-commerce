@@ -16,6 +16,7 @@ package com.liferay.commerce.account.internal.verify;
 
 import com.liferay.commerce.account.service.CommerceAccountGroupLocalService;
 import com.liferay.commerce.account.util.CommerceAccountRoleHelper;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Company;
@@ -26,14 +27,13 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.LoggingTimer;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.verify.VerifyException;
 import com.liferay.portal.verify.VerifyProcess;
-
-import java.util.List;
-
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.List;
 
 /**
  * @author Alessio Antonio Rendina
@@ -44,11 +44,14 @@ import org.osgi.service.component.annotations.Reference;
 	service = {CommerceAccountServiceVerifyProcess.class, VerifyProcess.class}
 )
 public class CommerceAccountServiceVerifyProcess extends VerifyProcess {
-
 	@Override
-	protected void doVerify() throws Exception {
-		verifyAccountRoles();
-		verifyAccountGroup();
+	public void verify() throws VerifyException {
+		try {
+			verifyAccountRoles();
+			verifyAccountGroup();
+		} catch( Exception e ) {
+			throw new VerifyException(e);
+		}
 	}
 
 	protected void verifyAccountGroup() throws Exception {

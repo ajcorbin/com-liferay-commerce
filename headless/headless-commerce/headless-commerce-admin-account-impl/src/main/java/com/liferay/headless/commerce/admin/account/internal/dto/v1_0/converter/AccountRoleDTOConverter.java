@@ -21,7 +21,6 @@ import com.liferay.headless.commerce.core.util.LanguageUtils;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalService;
-import com.liferay.portal.kernel.service.persistence.UserGroupRolePK;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -42,10 +41,9 @@ public class AccountRoleDTOConverter implements DTOConverter {
 
 	public AccountRole toDTO(DTOConverterContext dtoConverterContext)
 		throws Exception {
-
 		UserGroupRole userGroupRole =
 			_userGroupRoleLocalService.getUserGroupRole(
-				(UserGroupRolePK)
+				(Long)
 					dtoConverterContext.getCompositeResourcePrimKey());
 
 		Role role = userGroupRole.getRole();

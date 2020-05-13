@@ -47,20 +47,17 @@ import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchCo
 import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchRequest;
 import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchResponse;
 import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchSettings;
-
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Alessio Antonio Rendina
@@ -242,14 +239,11 @@ public class CPSpecificationOptionFacetsPortlet
 
 		searchContext.addFacet(facet);
 
-		QueryConfig queryConfig = new QueryConfig();
+		searchContext.getQueryConfig().setHighlightEnabled(false);
+		searchContext.getQueryConfig().addSelectedFieldNames(CPField.SPECIFICATION_NAMES);
+		searchContext.getQueryConfig().setHighlightEnabled(false);
+		searchContext.getQueryConfig().setScoreEnabled(false);
 
-		queryConfig.addSelectedFieldNames(CPField.SPECIFICATION_NAMES);
-
-		queryConfig.setHighlightEnabled(false);
-		queryConfig.setScoreEnabled(false);
-
-		searchContext.setQueryConfig(queryConfig);
 
 		Indexer<CPDefinition> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
 			CPDefinition.class);

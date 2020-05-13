@@ -15,7 +15,7 @@
 		"baseTheme": "styled",
 		"screenshot": "",
 		"templateLanguage": "ftl",
-		"version": "7.1"
+		"version": "7.3"
 	},
 	"main": "package.json",
 	"name": "speedwell-theme",

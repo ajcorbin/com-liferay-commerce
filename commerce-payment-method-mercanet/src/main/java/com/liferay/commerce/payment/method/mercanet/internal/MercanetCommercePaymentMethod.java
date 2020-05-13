@@ -30,40 +30,23 @@ import com.liferay.commerce.product.model.CommerceChannel;
 import com.liferay.commerce.product.service.CommerceChannelLocalService;
 import com.liferay.commerce.service.CommerceOrderService;
 import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
-import com.liferay.portal.kernel.util.Http;
-import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.URLCodec;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-
-import com.worldline.sips.model.CaptureMode;
 import com.worldline.sips.model.Currency;
-import com.worldline.sips.model.InitializationResponse;
-import com.worldline.sips.model.OrderChannel;
-import com.worldline.sips.model.PaymentRequest;
-import com.worldline.sips.model.RedirectionStatusCode;
-
-import java.math.BigDecimal;
-
-import java.net.URL;
-import java.net.URLEncoder;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
-
+import com.worldline.sips.model.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * @author Luca Pellizzon

@@ -31,15 +31,13 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.comparator.GroupNameComparator;
 
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alec Sloan
@@ -132,8 +130,9 @@ public class SimpleSiteItemSelectorViewDisplayContext
 		params.put("active", true);
 		params.put("site", true);
 
+		String[] values = new String[0];
 		int total = _groupService.searchCount(
-			cpRequestHelper.getCompanyId(), null, null, null);
+			cpRequestHelper.getCompanyId(), null, null, values);
 		List<Group> groups = _groupService.search(
 			cpRequestHelper.getCompanyId(),
 			new long[] {
