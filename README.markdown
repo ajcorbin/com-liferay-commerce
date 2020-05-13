@@ -20,18 +20,18 @@ it can support millions of products in challenging B2B industries.
 
 ## Quick Start
 
-Requirements: [Liferay Portal 7.1 GA1](https://github.com/liferay/liferay-portal)
+Requirements: [Liferay Portal 7.3 GA2](https://github.com/liferay/liferay-portal)
 
 1.  Clone the Liferay Commerce repository (this
     [repository](https://github.com/liferay/com-liferay-commerce)) to the same
     level of your directory tree as your Liferay Home folder (Liferay Home is
-    the folder that contains the Tomcat folder for Liferay 7.1).
+    the folder that contains the Tomcat folder for Liferay 7.3).
 
     Alternatively, you can determine where Commerce will deploy by passing in
     a path to Liferay Home in your `gradle.properties` file. For example:
     `app.server.parent.dir=/home/computer/Documents/liferay-ce-7.1.0-ga1/`
 
-2.  Start Liferay Portal 7.1.
+2.  Start Liferay Portal 7.3.
 
     In the terminal, navigate to the source code folder
     (`com-liferay-commerce`).
