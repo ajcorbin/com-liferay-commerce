@@ -752,6 +752,8 @@ public class CPFileImporterImpl implements CPFileImporter {
 
 			String value = themeSetting.getValue();
 
+			System.out.println(String.format( "Values %s %s %s", key, value, themeSetting));			
+
 			//FIXME ThemeSettingImpl is deprecated
 			/*
 			if (!value.equals(themeSetting.getValue())) {
