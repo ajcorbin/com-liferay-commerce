@@ -13,7 +13,8 @@
 	},
 	"devDependencies": {
 		"check-source-formatting": "^2.0.6",
-		"liferay-npm-scripts": "7.3.0"
+		"liferay-npm-bundler": "^2.18.5",
+		"liferay-npm-scripts": "^32.2.0"
 	},
 	"name": "commerce-theme-minium-impl",
 	"scripts": {
