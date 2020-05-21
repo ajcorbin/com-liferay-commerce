@@ -5,7 +5,7 @@ baseline {
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.5.0"
 	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib", version: "5.2.1"
-	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay", version: "1.0.0"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay", version: "3.3.1"
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.taglib", version: "2.0.0"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "5.0.6"
 	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.3.1-ga2-2"
