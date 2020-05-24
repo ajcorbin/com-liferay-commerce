@@ -26,7 +26,4 @@ dependencies {
 	compileOnly project(":apps:commerce:headless:headless-commerce:headless-commerce-bom-api")
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+

@@ -5,7 +5,4 @@ dependencies {
 	compileOnly group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.1"
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+

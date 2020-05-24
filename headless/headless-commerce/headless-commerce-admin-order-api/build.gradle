@@ -11,7 +11,4 @@ dependencies {
 	compileOnly group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+

@@ -17,7 +17,4 @@ dependencies {
 	compileOnly project(":apps:commerce:commerce-shipping-engine-fixed-api")
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+

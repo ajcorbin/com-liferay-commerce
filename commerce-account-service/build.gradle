@@ -21,7 +21,4 @@ dependencies {
 }
 
 
-//TODO Fix the bug related SQL Injection and null references in service calls
-spotbugs {
-	ignoreFailures = true
-}
+

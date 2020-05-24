@@ -19,7 +19,4 @@ dependencies {
 	testIntegrationCompile project(":apps:commerce:commerce-test-util")
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+

@@ -26,7 +26,4 @@ dependencies {
 	testCompile group: "org.mockito", name: "mockito-core", version: "1.10.8"
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+

@@ -14,7 +14,4 @@ dependencies {
 	compileOnly project(":apps:commerce:commerce-service")
 }
 
-//TODO Fix the bug related to remote code execution in the jsp files 
-spotbugs {
-	ignoreFailures = true
-}
+
