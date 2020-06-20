@@ -36,7 +36,7 @@ Requirements: [Liferay Portal 7.3 GA2](https://github.com/liferay/liferay-portal
     In the terminal, navigate to the source code folder
     (`com-liferay-commerce`).
 
-    Windows Users: enter `gradlew.bat deploy -Dbuild.profile=portal`
+    Windows Users: enter `gradlew.bat deploy -Dbuild.profile=portal -x spotbugMain -x spotbugTest`
 
     MacOS/Linux: enter `./gradlew deploy -Dbuild.profile=portal`
 
